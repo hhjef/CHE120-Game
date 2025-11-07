@@ -385,10 +385,11 @@ def makeNewSquirrel(camerax, cameray):
 def makeNewGrass(camerax, cameray):
     gr = {}
     # creates random size for grass images JC
+    # chooses a random image of grass JC
     gr['grassImage'] = random.randint(0, len(GRASSIMAGES) - 1)
     gr['width']  = GRASSIMAGES[0].get_width()
     gr['height'] = GRASSIMAGES[0].get_height()
-    # spawns the grass of camera JC
+    # spawns the grass off camera JC
     gr['x'], gr['y'] = getRandomOffCameraPos(camerax, cameray, gr['width'], gr['height'])
     gr['rect'] = pygame.Rect( (gr['x'], gr['y'], gr['width'], gr['height']) )
     return gr
