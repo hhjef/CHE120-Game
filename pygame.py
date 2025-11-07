@@ -203,15 +203,18 @@ def runGame():
             DISPLAYSURF.blit(sObj['surface'], sObj['rect'])
 
 #-- AP--
+#--MS--
         # draw the player squirrel
         flashIsOn = round(time.time(), 1) * 10 % 2 == 1
+        # this variable rounds the value for flashison to a single decimal place, and then every 0.1s the expression alternates between True and False      
         if not gameOverMode and not (invulnerableMode and flashIsOn):
+        # if the player has won and not invulnerable and also 
             playerObj['rect'] = pygame.Rect( (playerObj['x'] - camerax,
                                               playerObj['y'] - cameray - getBounceAmount(playerObj['bounce'], BOUNCERATE, BOUNCEHEIGHT),
                                               playerObj['size'],
                                               playerObj['size']) )
             DISPLAYSURF.blit(playerObj['surface'], playerObj['rect'])
-
+        # this line converts the player's world position into a rectangle on the screen. it adjusts for camera scrolling and bounce animation so that pygame can detect and collision.
 
         # draw the health meter
         drawHealthMeter(playerObj['health'])
@@ -219,11 +222,13 @@ def runGame():
         for event in pygame.event.get(): # event handling loop
             if event.type == QUIT:
                 terminate()
+        # the event.type is the last action that took plae on the screen. if the user clicks the X out button, as in QUIT, then it exits the game.
 
             elif event.type == KEYDOWN:
                 if event.key in (K_UP, K_w):
                     moveDown = False
                     moveUp = True
+            # if the last action was clicking the UP arrow button or the W key on their keyboard, then turn offmoving down, and turn on moving up. Since the user wants to move up.
                 elif event.key in (K_DOWN, K_s):
                     moveUp = False
                     moveDown = True
