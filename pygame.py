@@ -202,7 +202,7 @@ def runGame():
                                          sObj['height']) )
             DISPLAYSURF.blit(sObj['surface'], sObj['rect'])
 
-
+#-- AP--
         # draw the player squirrel
         flashIsOn = round(time.time(), 1) * 10 % 2 == 1
         if not gameOverMode and not (invulnerableMode and flashIsOn):
