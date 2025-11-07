@@ -2,6 +2,10 @@
 # By Al Sweigart al@inventwithpython.com
 # http://inventwithpython.com/pygame
 # Released under a "Simplified BSD" license
+#Adrian Pun - AP
+#Jeff Chen - JC
+#Noaah Karim - NK
+#Manroop - MS
 
 import random, sys, time, math, pygame
 from pygame.locals import *
