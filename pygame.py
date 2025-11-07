@@ -13,8 +13,8 @@ from pygame.locals import *
 FPS = 30 # frames per second to update the screen
 WINWIDTH = 640 # width of the program's window, in pixels
 WINHEIGHT = 480 # height in pixels
-HALF_WINWIDTH = int(WINWIDTH / 2)
-HALF_WINHEIGHT = int(WINHEIGHT / 2)
+HALF_WINWIDTH = int(WINWIDTH / 2) # half the width of the program's window, in pixels
+HALF_WINHEIGHT = int(WINHEIGHT / 2) # half the height of the program's window, in pixels
 
 GRASSCOLOR = (24, 255, 0)
 WHITE = (255, 255, 255)
