@@ -312,7 +312,6 @@ def runGame():
 
 
 
-
 def drawHealthMeter(currentHealth):
     for i in range(currentHealth): # draw red health bars
         pygame.draw.rect(DISPLAYSURF, RED,   (15, 5 + (10 * MAXHEALTH) - i * 10, 20, 10))
@@ -321,6 +320,7 @@ def drawHealthMeter(currentHealth):
 
 
 def terminate():
+    #ends the game and exits the terminal JC
     pygame.quit()
     sys.exit()
 
@@ -333,6 +333,7 @@ def getBounceAmount(currentBounce, bounceRate, bounceHeight):
     return int(math.sin( (math.pi / float(bounceRate)) * currentBounce ) * bounceHeight)
 
 def getRandomVelocity():
+    #allows the squirrels to run at random speeds in the game JC
     speed = random.randint(SQUIRRELMINSPEED, SQUIRRELMAXSPEED)
     if random.randint(0, 1) == 0:
         return speed
@@ -354,18 +355,23 @@ def getRandomOffCameraPos(camerax, cameray, objWidth, objHeight):
 
 
 def makeNewSquirrel(camerax, cameray):
+    # these defined variables set the basis for the size of all squirrels JC
     sq = {}
     generalSize = random.randint(5, 25)
     multiplier = random.randint(1, 3)
+    # these defined variables give the squirrels a random size by multiplying their base size JC
     sq['width']  = (generalSize + random.randint(0, 10)) * multiplier
     sq['height'] = (generalSize + random.randint(0, 10)) * multiplier
+    # randomly spawns the squirrels outside of the camera position JC
     sq['x'], sq['y'] = getRandomOffCameraPos(camerax, cameray, sq['width'], sq['height'])
+    # assigns random velocity to squirrels in terms of horizontal and vertical velocity JC
     sq['movex'] = getRandomVelocity()
     sq['movey'] = getRandomVelocity()
     if sq['movex'] < 0: # squirrel is facing left
         sq['surface'] = pygame.transform.scale(L_SQUIR_IMG, (sq['width'], sq['height']))
     else: # squirrel is facing right
         sq['surface'] = pygame.transform.scale(R_SQUIR_IMG, (sq['width'], sq['height']))
+    # provides random bounce animation for squirrels JC
     sq['bounce'] = 0
     sq['bouncerate'] = random.randint(10, 18)
     sq['bounceheight'] = random.randint(10, 50)
@@ -374,9 +380,11 @@ def makeNewSquirrel(camerax, cameray):
 
 def makeNewGrass(camerax, cameray):
     gr = {}
+    # creates random size for grass images JC
     gr['grassImage'] = random.randint(0, len(GRASSIMAGES) - 1)
     gr['width']  = GRASSIMAGES[0].get_width()
     gr['height'] = GRASSIMAGES[0].get_height()
+    # spawns the grass of camera JC
     gr['x'], gr['y'] = getRandomOffCameraPos(camerax, cameray, gr['width'], gr['height'])
     gr['rect'] = pygame.Rect( (gr['x'], gr['y'], gr['width'], gr['height']) )
     return gr
