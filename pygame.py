@@ -87,15 +87,27 @@ def main():
 
 def runGame():
     # set up variables for the start of a new game
-    invulnerableMode = False  # if the player is invulnerable
-    invulnerableStartTime = 0 # time the player became invulnerable
-    gameOverMode = False      # if the player has lost
-    gameOverStartTime = 0     # time the player lost
-    winMode = False           # if the player has won
+    invulnerableMode = False  # if the player is invulnerable, initially, the player is vulnerable according to the code-AP
+    invulnerableStartTime = 0 # time the player became invulnerable, default setting of the time (t initial = 0) -AP
+    gameOverMode = False      # if the player has lost, initially the player hasn't lost yet. -AP
+    gameOverStartTime = 0     # time the player lost, initially the time is 0 -AP
+    winMode = False           # if the player has won, initially the player hasn't win yet. -AP
+
+    #Since the player just started the game, all of the conditions will be false, and the time that counts 
+    #how long is the condition has been running is 0 - AP
 
     # create the surfaces to hold game text
-    gameOverSurf = BASICFONT.render('Game Over', True, WHITE)
-    gameOverRect = gameOverSurf.get_rect()
+    gameOverSurf = BASICFONT.render('Game Over', True, WHITE) #this variable is defined as a string where they call the previous 
+                                                                #variable, BASICFONT to print the designated font, where they 
+                                                                #are defined to have white text, 'Game Over', with smooth edge
+    #It works as so because the interpreter first see the variable 'BASICFONT', and call the variable out. This variable defined the 
+    #size of the text. 
+    #The render method is to draw the text out of the surface. Inside the bracket, there are four variables inside, whereas the author redefined 3.
+    #The first one is the string text, second one is antialias (boolean value whether the edges of the text is round or not), third one
+    #is background of the color (WHITE, which is defined inside the variable), fourth one is background, which the author didn't define
+    #it, so it will be type None (no background). 
+    gameOverRect = gameOverSurf.get_rect() #This variable creates a rect that has the same size of the text.
+    #It works as so because it looks at the previous variable 'gameOversurf' and they get the same size of the rect using a method. 
     gameOverRect.center = (HALF_WINWIDTH, HALF_WINHEIGHT)
 
     winSurf = BASICFONT.render('You have achieved OMEGA SQUIRREL!', True, WHITE)
