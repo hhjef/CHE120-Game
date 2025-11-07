@@ -364,6 +364,7 @@ def makeNewSquirrel(camerax, cameray):
     generalSize = random.randint(5, 25)
     multiplier = random.randint(1, 3)
     # these defined variables give the squirrels a random size by multiplying their base size JC
+    # larger randint creates a larger image of the squirrel both vertically and horizontally JC
     sq['width']  = (generalSize + random.randint(0, 10)) * multiplier
     sq['height'] = (generalSize + random.randint(0, 10)) * multiplier
     # randomly spawns the squirrels outside of the camera position JC
@@ -387,6 +388,8 @@ def makeNewGrass(camerax, cameray):
     # creates random size for grass images JC
     # chooses a random image of grass JC
     gr['grassImage'] = random.randint(0, len(GRASSIMAGES) - 1)
+    # larger get_width means the grass image is wider JC
+    # larger get_height means the grass image is taller JC
     gr['width']  = GRASSIMAGES[0].get_width()
     gr['height'] = GRASSIMAGES[0].get_height()
     # spawns the grass off camera JC
