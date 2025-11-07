@@ -5,7 +5,7 @@
 #Adrian Pun - AP
 #Jeff Chen - JC
 #Noaah Karim - NK
-#Manroop - MS
+#Manroop Sandhu - MS
 
 import random, sys, time, math, pygame
 from pygame.locals import *
