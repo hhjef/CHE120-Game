@@ -13,8 +13,8 @@ from pygame.locals import *
 FPS = 30 # frames per second to update the screen
 WINWIDTH = 640 # width of the program's window, in pixels
 WINHEIGHT = 480 # height in pixels
-HALF_WINWIDTH = int(WINWIDTH / 2) # half the width of the program's window, in pixels
-HALF_WINHEIGHT = int(WINHEIGHT / 2) # half the height of the program's window, in pixels
+HALF_WINWIDTH = int(WINWIDTH / 2) # NK half the width of the program's window, in pixels
+HALF_WINHEIGHT = int(WINHEIGHT / 2) # NK half the height of the program's window, in pixels
 
 GRASSCOLOR = (24, 255, 0)
 WHITE = (255, 255, 255)
@@ -398,11 +398,11 @@ def makeNewGrass(camerax, cameray):
 def isOutsideActiveArea(camerax, cameray, obj):
     # Return False if camerax and cameray are more than
     # a half-window length beyond the edge of the window.
-    boundsLeftEdge = camerax - WINWIDTH
-    boundsTopEdge = cameray - WINHEIGHT
-    boundsRect = pygame.Rect(boundsLeftEdge, boundsTopEdge, WINWIDTH * 3, WINHEIGHT * 3)
-    objRect = pygame.Rect(obj['x'], obj['y'], obj['width'], obj['height'])
-    return not boundsRect.colliderect(objRect)
+    boundsLeftEdge = camerax - WINWIDTH # NK calculates the difference of the top left point of the camera and the width of the window, then assigns it as a left boundary
+    boundsTopEdge = cameray - WINHEIGHT # NK calculates the difference of the top left point of the camera and the height of the window, then assigns it as a top boundary
+    boundsRect = pygame.Rect(boundsLeftEdge, boundsTopEdge, WINWIDTH * 3, WINHEIGHT * 3) # NK creates a rectangle three times the size of the window's dimensions using the boundaries as starting points, representing the active area
+    objRect = pygame.Rect(obj['x'], obj['y'], obj['width'], obj['height']) # NK creates a rectangle using the position and dimensions of a given object
+    return not boundsRect.colliderect(objRect) # checks if the rectangle encapsulating a given object is within the rectangle encapsulating the active area, then returns True if the object is not inside the active area, and False if it is
 
 
 if __name__ == '__main__':
