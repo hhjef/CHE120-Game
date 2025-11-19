@@ -86,32 +86,55 @@ def main():
 
 
 def runGame():
-    # set up variables for the start of a new game
-    invulnerableMode = False  # if the player is invulnerable
-    invulnerableStartTime = 0 # time the player became invulnerable
-    gameOverMode = False      # if the player has lost
-    gameOverStartTime = 0     # time the player lost
-    winMode = False           # if the player has won
+    #AP: Variables defined in the game
+    invulnerableMode = False  # AP: default set up of the player where they aren't invunlerable at start (Determine if the player is invunlerable)
+    invulnerableStartTime = 0 # AP: The count time variable when the player is invunlerable (default time = 0)
+    gameOverMode = False      # AP: default set up of the player where they aren't game over at start (Determine if the player has lost)
+    gameOverStartTime = 0     # AP: The count time variable when the player is lost (default time = 0)
+    winMode = False           # AP: The default set up where the player hasn't won (Determine if the player has win)
 
-    # create the surfaces to hold game text
-    gameOverSurf = BASICFONT.render('Game Over', True, WHITE)
-    gameOverRect = gameOverSurf.get_rect()
-    gameOverRect.center = (HALF_WINWIDTH, HALF_WINHEIGHT)
+    #AP: Set up for text when player loses
+    gameOverSurf = BASICFONT.render('Game Over', True, WHITE) #AP:Defined Variable that creates a 'surface' for text (using methods '.render') where it adapts BASICFONT (for fonts) 
+                                                              # to print 'Game Over' with smooth edge since the second argument (determine if
+                                                              # the smooth edge is wanted with boolean value) is true with the text being white as
+                                                              #it has the variable WHITE on 3rd argument (defines color)
+                                                              
+    gameOverRect = gameOverSurf.get_rect() #AP:Defined a variable that creates a rect (rectangle) for the variable above (using method '.get_rect()')
+    gameOverRect.center = (HALF_WINWIDTH, HALF_WINHEIGHT) #AP:moves the center of the rect that has been previously defined(since it uses method '.center') to the designated 
+                                                          #coordinate (320,240) since the two variables are previously defined. Note that the coordinate is format as (x,y) 
+    #AP: End of the set up for text when player loses
+    
+    
+    #AP: Set up for text when player wins
+    winSurf = BASICFONT.render('You have achieved OMEGA SQUIRREL!', True, WHITE) #AP: Defined a variable that create a 'surface' for text (using methods '.render') where it adapts 
+                                                                                  #BASICFONT (for fonts) to print 'You have achieved OMEGA SQUIRREL!' (It is a string.) with smooth edge since the 
+                                                                                  #second argument (determine if the smooth edge is wanted with boolean variable) is 
+                                                                                  #true with the text being white as it has the variable WHITE on 3rd argument (defines color)
+                                                                                  
+    winRect = winSurf.get_rect() #AP: Defined a variable that creates a rect (rectangle) for the variable above (using method '.get_rect()')
+    winRect.center = (HALF_WINWIDTH, HALF_WINHEIGHT)#AP: moves the center of the rect that has been previously defined (since it uses method '.center') to the designated coordinate (320,240) 
+                                                    #since the two variables are previously defined. Note that the coordinate is format as (x,y) 
 
-    winSurf = BASICFONT.render('You have achieved OMEGA SQUIRREL!', True, WHITE)
-    winRect = winSurf.get_rect()
-    winRect.center = (HALF_WINWIDTH, HALF_WINHEIGHT)
+    winSurf2 = BASICFONT.render('(Press "r" to restart.)', True, WHITE) #Defines another variable to print another box that creates a 'surface' for text (using methods '.render') where it 
+                                                              #adapts BASICFONT (for fonts)  to print '(Press "r" to restart.)' with smooth edge since the second argument (determine if
+                                                              # the smooth edge is wanted with boolean value) is true with the text being white as
+                                                              #it has the variable WHITE on 3rd argument (defines color)
+                                                              
+    winRect2 = winSurf2.get_rect() #AP: Defined a variable that creates a rect (rectangle) for the variable above (using method '.get_rect()')
+    winRect2.center = (HALF_WINWIDTH, HALF_WINHEIGHT + 30)#AP: moves the center of the rect that has been previously defined (since it uses method '.center') to the designated coordinate 
+                                                          #(320,270) -> note that the coordinate is changed since the author added 30 steps up to y coordinate (240+30 = 270)
+                                                          #since the two variables are previously defined. Note that the coordinate is format as (x,y) 
+    #AP: End of the set up for text when player wins
 
-    winSurf2 = BASICFONT.render('(Press "r" to restart.)', True, WHITE)
-    winRect2 = winSurf2.get_rect()
-    winRect2.center = (HALF_WINWIDTH, HALF_WINHEIGHT + 30)
-
-    # camerax and cameray are the top left of where the camera view is
-    camerax = 0
-    cameray = 0
-
-    grassObjs = []    # stores all the grass objects in the game
-    squirrelObjs = [] # stores all the non-player squirrel objects
+    #AP: Set up of camera view
+    camerax = 0 #define camerax variable as 0 
+    cameray = 0 #define cameray variable as 0
+    #The camera view is in the origin (0,0) by default
+    
+    #set up of backgrounds
+    grassObjs = []    # AP: Variable that defined a list that stores all grass objects (Default: empty)
+    squirrelObjs = [] # AP: Variable that defined a list that stores all the non-player squirrel objects (Default: empty)
+    
     # stores the player object:
     playerObj = {'surface': pygame.transform.scale(L_SQUIR_IMG, (STARTSIZE, STARTSIZE)),
                  'facing': LEFT,
@@ -119,79 +142,102 @@ def runGame():
                  'x': HALF_WINWIDTH,
                  'y': HALF_WINHEIGHT,
                  'bounce':0,
-                 'health': MAXHEALTH}
+                 'health': MAXHEALTH} #AP:It is a variable that is a python dictionary that describes the appearance and behavior of the squirrel. 
+                                        #surface is the size and face of squirrel. Using method '.transform.scale', it transforms the squirrel to
+                                        #the L_SQUIR_IMG (image of squirrel stored) with size (25,25) -> (width of image, height of image)
+                                        
+                                        #AP: facing is the default direction of the squirrel facing. It is looking to left
+                                        #size is the size in default (its size is 25)
+                                        #x and y describe the horizontal and veritcal position of squirrel respectively (its position is 320 and 240 respectively)
+                                        #squirrel doesn't bounce in default as bounce is 0
+                                        #health determines how many health the squirrel has. Default is 3
+                                        
+    #AP: Here defines the default movement of squirrel (all are False in default to ensure the squrriel in rest unless users input movement)
+    moveLeft  = False  #AP: boolean variable defined when the squirrel moves towards left (default is False)
+    moveRight = False  #AP: boolean variable defined when the squirrel moves towards right (default is False)
+    moveUp    = False  #AP: boolean variable defined when the squirrel moves towards up (default is False)
+    moveDown  = False  #AP: boolean variable defined when the squirrel moves towards down (default is False)
 
-    moveLeft  = False
-    moveRight = False
-    moveUp    = False
-    moveDown  = False
+    for i in range(10): #AP: for loop that run 10 times
+        grassObjs.append(makeNewGrass(camerax, cameray)) #AP: get dictionary from makeNewGrass function and add them to the list (the function creates grass)
+        grassObjs[i]['x'] = random.randint(0, WINWIDTH) #AP: get a random integer from 0 to WINWIDTH value and replace it in the 'x' in dictionary in index i 
+        grassObjs[i]['y'] = random.randint(0, WINHEIGHT) #AP: get a random integer from 0 to WINHEIGHT value and replace it in the 'y' in dictionary in index i 
+        #AP: this for loop can make new grass because the area of grass and its rectangle of the image of the grass is created. 
+        
+    while True: #AP: main game loop (never exits until it breaks)
+        #AP: check if the invulnerable mode should turn on
+        if invulnerableMode and time.time() - invulnerableStartTime > INVULNTIME: #AP: if condition for invulnerable Mode is True and if time since epoch minus invulnerableStartTime is larger than INVULNTIME
+            invulnerableMode = False #AP: reset variable if this condition enters
 
-    # start off with some random grass images on the screen
-    for i in range(10):
-        grassObjs.append(makeNewGrass(camerax, cameray))
-        grassObjs[i]['x'] = random.randint(0, WINWIDTH)
-        grassObjs[i]['y'] = random.randint(0, WINHEIGHT)
+        #AP: for loop to move NPC squirrels
+        for sObj in squirrelObjs: 
+            sObj['x'] += sObj['movex'] #AP: determine the x direction of squirrel. It does so because the value of the key 'x' is redefined to add the random number of x velocity of 'movex' key's value
+            sObj['y'] += sObj['movey'] #AP: determine the y direction of squirrel. It does so because the value of the key 'y' is redefined to add the random number of y velocity of 'movey' key's value
+            sObj['bounce'] += 1 #AP: every time it moves the bounce key's value is added by 1
+            if sObj['bounce'] > sObj['bouncerate']: #AP: if condition for the bounce key value is too high (i.e. higher the value is higher than the maximum bounce value that is set)
+                sObj['bounce'] = 0 # AP: reset the bounce key's value to 0
 
-    while True: # main game loop
-        # Check if we should turn off invulnerability
-        if invulnerableMode and time.time() - invulnerableStartTime > INVULNTIME:
-            invulnerableMode = False
-
-        # move all the squirrels
-        for sObj in squirrelObjs:
-            # move the squirrel, and adjust for their bounce
-            sObj['x'] += sObj['movex']
-            sObj['y'] += sObj['movey']
-            sObj['bounce'] += 1
-            if sObj['bounce'] > sObj['bouncerate']:
-                sObj['bounce'] = 0 # reset bounce amount
-
-            # random chance they change direction
-            if random.randint(0, 99) < DIRCHANGEFREQ:
-                sObj['movex'] = getRandomVelocity()
-                sObj['movey'] = getRandomVelocity()
-                if sObj['movex'] > 0: # faces right
-                    sObj['surface'] = pygame.transform.scale(R_SQUIR_IMG, (sObj['width'], sObj['height']))
-                else: # faces left
+            #Randomly change squirrel's direction
+            if random.randint(0, 99) < DIRCHANGEFREQ: #AP: get a random integer and if it is 0 or 1 (i.e. less than the numeric variable DIRCHANGEFREQ, 2), enter if condition
+                sObj['movex'] = getRandomVelocity() #AP: determine the new x direction of squirrel. It does so because the value of the key 'x' is redefined to add the random number of x velocity of 'movex' key's value 
+                sObj['movey'] = getRandomVelocity() #AP: determine the new y direction of squirrel. It does so because the value of the key 'y' is redefined to add the random number of y velocity of 'movey' key's value
+                if sObj['movex'] > 0: # if condition for if x is larger than 0
+                    sObj['surface'] = pygame.transform.scale(R_SQUIR_IMG, (sObj['width'], sObj['height'])) #AP: makes it faces right since it transform the image of 
+                                                                                                            #the squirrel facing right to its squirrel width and height using method .transform (transform the image)
+                                                                                                            #to transform to its designated width and height
+                else: #AP: else condition if not larger than 0
                     sObj['surface'] = pygame.transform.scale(L_SQUIR_IMG, (sObj['width'], sObj['height']))
+                    #AP: makes it faces right since it transform the image of 
+                    #the squirrel facing left to its squirrel width and height using method .transform (transform the image)
+                    #to transform to its designated width and height
 
 
         # go through all the objects and see if any need to be deleted.
-        for i in range(len(grassObjs) - 1, -1, -1):
-            if isOutsideActiveArea(camerax, cameray, grassObjs[i]):
-                del grassObjs[i]
-        for i in range(len(squirrelObjs) - 1, -1, -1):
-            if isOutsideActiveArea(camerax, cameray, squirrelObjs[i]):
-                del squirrelObjs[i]
+        for i in range(len(grassObjs) - 1, -1, -1): #AP: enter a for loop to let i start from the largest index number of list grassObjs until it reaches -1, jump -1 every time
+            if isOutsideActiveArea(camerax, cameray, grassObjs[i]): #AP: if condition for checking if when calling function isOutsideActiveArea return True for grass objects
+                del grassObjs[i] #AP: if yes, delete the last item in the list (index i) (i.e. delete the furthest grass in game)
+        for i in range(len(squirrelObjs) - 1, -1, -1): #AP: enter a for loop to let i start from the largest index number of list squirrelObjs until it reaches -1, jump -1 every time
+            if isOutsideActiveArea(camerax, cameray, squirrelObjs[i]): #AP: if condition for calling and checking if function isOutsideActiveArea return True for squirrels objects
+                del squirrelObjs[i] #AP: if yes, delete the last item in the list (index i) (i.e. delete the furthest grass in game)
 
         # add more grass & squirrels if we don't have enough.
-        while len(grassObjs) < NUMGRASS:
-            grassObjs.append(makeNewGrass(camerax, cameray))
-        while len(squirrelObjs) < NUMSQUIRRELS:
-            squirrelObjs.append(makeNewSquirrel(camerax, cameray))
+        while len(grassObjs) < NUMGRASS: #AP: enter while loop if the length of grassObjs is less than the designated value of minimum number of grass (NUMGRASS variable) until it reaches the minimum
+            grassObjs.append(makeNewGrass(camerax, cameray)) #AP: add grass objects at the end of the list
+        while len(squirrelObjs) < NUMSQUIRRELS: #AP: enter while loop if the length of squirrelObjs is less than the designated value of minimum number of NPC squirrels (NUMSQUIRREL variable) until it reaches the minimum
+            squirrelObjs.append(makeNewSquirrel(camerax, cameray))#AP: add squirrel objects at the end of the list
 
-        # adjust camerax and cameray if beyond the "camera slack"
-        playerCenterx = playerObj['x'] + int(playerObj['size'] / 2)
-        playerCentery = playerObj['y'] + int(playerObj['size'] / 2)
-        if (camerax + HALF_WINWIDTH) - playerCenterx > CAMERASLACK:
-            camerax = playerCenterx + CAMERASLACK - HALF_WINWIDTH
-        elif playerCenterx - (camerax + HALF_WINWIDTH) > CAMERASLACK:
-            camerax = playerCenterx - CAMERASLACK - HALF_WINWIDTH
-        if (cameray + HALF_WINHEIGHT) - playerCentery > CAMERASLACK:
-            cameray = playerCentery + CAMERASLACK - HALF_WINHEIGHT
-        elif playerCentery - (cameray + HALF_WINHEIGHT) > CAMERASLACK:
-            cameray = playerCentery - CAMERASLACK - HALF_WINHEIGHT
 
-        # draw the green background
-        DISPLAYSURF.fill(GRASSCOLOR)
+        #AP: adjust camera angle
+        playerCenterx = playerObj['x'] + int(playerObj['size'] / 2) #AP: define the center of player in x position as the x position of player plus half of the player's size (from dictionary of player; get 'x' and 'size' key)
+        playerCentery = playerObj['y'] + int(playerObj['size'] / 2) #AP: define the center of player in y position as the y position of player plus half of the player's size (from dictionary of player; get 'x' and 'size' key)
+        #AP: if camera position x is too right
+        if (camerax + HALF_WINWIDTH) - playerCenterx > CAMERASLACK: #AP: if condition to compare the sum of camerax position plus half window width minus player centre x to CAMERASLACK (how far squirrel moves from centre before camera moves)
+            camerax = playerCenterx + CAMERASLACK - HALF_WINWIDTH #AP: if the camerax+halfWINWIDTH-playerCenterx is larger than CAMERASLACK, reset the camerax position to 
+                                                                    #player center x plus how far squirrel moves from centre before camera moves minus half window width to move right to ensure it is tracking the squirrel
+        #AP: else if camera position x is too left
+        elif playerCenterx - (camerax + HALF_WINWIDTH) > CAMERASLACK: #AP: take the expression above and times negative in else if since they represent when the camera position is too left. 
+            camerax = playerCenterx - CAMERASLACK - HALF_WINWIDTH #AP: did the same equation above but since player is moving left, the cameraslack is negative to make the camera move left to ensure it is tracking the squirrel
+        
+        #AP: if camera position y is too high
 
-        # draw all the grass objects on the screen
-        for gObj in grassObjs:
+        if (cameray + HALF_WINHEIGHT) - playerCentery > CAMERASLACK: #AP: if condition to compare the sum of cameray position plus half window width minus player centre y to CAMERASLACK (how far squirrel moves from centre before camera moves)
+            cameray = playerCentery + CAMERASLACK - HALF_WINHEIGHT #AP: if the cameray+halfWINWIDTH-playerCentery is larger than CAMERASLACK, reset the cameray position to 
+                                                                    #player center y plus how far squirrel moves from centre before camera moves minus half window width to move up to ensure it is tracking the squirrel
+        elif playerCentery - (cameray + HALF_WINHEIGHT) > CAMERASLACK: #AP: take the expression above and times negative in else if since they represent when the camera position is too low. 
+            cameray = playerCentery - CAMERASLACK - HALF_WINHEIGHT #AP: did the same equation above but since player is moving down, the cameraslack is negative to make the camera move down to ensure it is tracking the squirrel
+
+        DISPLAYSURF.fill(GRASSCOLOR) #use builtin variable and method DISPLAYSURF.fill to fill the grass color (just the color, not grass) 
+
+        for gObj in grassObjs: #AP: call for loop to draw grass, range is the length of the list grassObjs
             gRect = pygame.Rect( (gObj['x'] - camerax,
                                   gObj['y'] - cameray,
                                   gObj['width'],
-                                  gObj['height']) )
-            DISPLAYSURF.blit(GRASSIMAGES[gObj['grassImage']], gRect)
+                                  gObj['height']) ) #AP: define gRect to create rectangles with properties:
+                                                    #x position is random integer obtained previously in grassObjs[i]['x'] - camerax angle to draw outside of camerax range
+                                                    #y position is random integer obtained previously in grassObjs[i]['y'] - cameray angle to draw outside of cameray range
+                                                    #width is equal to the width of image (previously found in MakeNewGrass function)
+                                                    #height is equal to the height of image (previously found in MakeNewGrass function)
+            DISPLAYSURF.blit(GRASSIMAGES[gObj['grassImage']], gRect) #AP: use method .blit to build grass image taken from the list GRASSIMAGE with respect of the properties of gRect defined above. 
 
 
         # draw the other squirrels
@@ -199,8 +245,13 @@ def runGame():
             sObj['rect'] = pygame.Rect( (sObj['x'] - camerax,
                                          sObj['y'] - cameray - getBounceAmount(sObj['bounce'], sObj['bouncerate'], sObj['bounceheight']),
                                          sObj['width'],
-                                         sObj['height']) )
-            DISPLAYSURF.blit(sObj['surface'], sObj['rect'])
+                                         sObj['height']) )#AP: define sObj['rect'] (rectangle/surface for squirrels) to create rectangles with properties:
+                                                           #x position is random integer obtained previously in squirrelObjs[i]['x'] - camerax angle to draw outside of camerax range
+                                                           #y position is random integer obtained previously in squirrelObjs[i]['x'] - cameray angle to draw outside of cameray range - bounce rate obtained from getBounceAmount function
+                                                           #width is equal to the width of image (previously found in MakeNewSquirrel function)
+                                                           #height is equal to the height of image (previously found in MakeNewSquirrel function)
+            DISPLAYSURF.blit(sObj['surface'], sObj['rect']) #AP: use method .blit to build grass image taken from the list playerObj with respect of the properties of gRect defined above. 
+            
 
 #-- AP--
         # draw the player squirrel
