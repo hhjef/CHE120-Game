@@ -16,9 +16,9 @@ WINHEIGHT = 480 # height in pixels
 HALF_WINWIDTH = int(WINWIDTH / 2) # NK half the width of the program's window, in pixels
 HALF_WINHEIGHT = int(WINHEIGHT / 2) # NK half the height of the program's window, in pixels
 
-GRASSCOLOR = (24, 255, 0)
-WHITE = (255, 255, 255)
-RED = (255, 0, 0)
+GRASSCOLOR = (24, 255, 0) #NK Hue for grass
+WHITE = (255, 255, 255) #NK Hue for white
+RED = (255, 0, 0) #NK Hue for red
 
 CAMERASLACK = 90     # how far from the center the squirrel moves before moving the camera
 MOVERATE = 9         # how fast the player moves
@@ -65,22 +65,30 @@ Grass data structure keys:
 """
 
 def main():
+    # NK Variables accessed outside the function
     global FPSCLOCK, DISPLAYSURF, BASICFONT, L_SQUIR_IMG, R_SQUIR_IMG, GRASSIMAGES
 
+    # NK Initialize pygame modules
     pygame.init()
+    # NK Sets the frames per second to be based around the pygame clock
     FPSCLOCK = pygame.time.Clock()
+    # NK Sets game window icon
     pygame.display.set_icon(pygame.image.load('gameicon.png'))
+    # NK Sets game window size
     DISPLAYSURF = pygame.display.set_mode((WINWIDTH, WINHEIGHT))
+    # NK Sets game title at top of window
     pygame.display.set_caption('Squirrel Eat Squirrel')
     BASICFONT = pygame.font.Font('freesansbold.ttf', 32)
 
     # load the image files
     L_SQUIR_IMG = pygame.image.load('squirrel.png')
     R_SQUIR_IMG = pygame.transform.flip(L_SQUIR_IMG, True, False)
+    # NK Adds grass images together into a list
     GRASSIMAGES = []
     for i in range(1, 5):
         GRASSIMAGES.append(pygame.image.load('grass%s.png' % i))
 
+    # NK Infinite loop that runs the game
     while True:
         runGame()
 
