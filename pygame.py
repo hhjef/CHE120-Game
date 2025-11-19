@@ -388,7 +388,7 @@ def getBounceAmount(currentBounce, bounceRate, bounceHeight):
     return int(math.sin( (math.pi / float(bounceRate)) * currentBounce ) * bounceHeight)
 
 def getRandomVelocity():
-    #allows the squirrels to run at random speeds in the game JC
+    # NK allows the squirrels to run at random speeds in the game
     speed = random.randint(SQUIRRELMINSPEED, SQUIRRELMAXSPEED)
     if random.randint(0, 1) == 0:
         return speed
@@ -404,8 +404,8 @@ def getRandomOffCameraPos(camerax, cameray, objWidth, objHeight):
         # NK using the top left point of the camera as a basis
         x = random.randint(camerax - WINWIDTH, camerax + (2 * WINWIDTH))
         y = random.randint(cameray - WINHEIGHT, cameray + (2 * WINHEIGHT))
-        # create a Rect object with the random coordinates and use colliderect()
-        # to make sure the right edge isn't in the camera view.
+        # NK create a Rect object with the random coordinates and use colliderect()
+        # NK to make sure the right edge isn't in the camera view.
         objRect = pygame.Rect(x, y, objWidth, objHeight)
         # NK returns True if the object's rectangle touches the camera's rectangle
         # NK and returns False if the object's rectangle does not overlap with the camera's rectangle
@@ -454,19 +454,19 @@ def makeNewGrass(camerax, cameray):
 
 
 def isOutsideActiveArea(camerax, cameray, obj):
-    # Return False if camerax and cameray are more than
-    # a half-window length beyond the edge of the window.
+    # NK Return False if camerax and cameray are more than
+    # NK a half-window length beyond the edge of the window.
     # NK calculates the differences between the top left point of the camera and the dimensions of the window, then assigns them as boundaries
     boundsLeftEdge = camerax - WINWIDTH 
     boundsTopEdge = cameray - WINHEIGHT
     # NK creates a rectangle three times the size of the window's dimensions using the boundaries as starting points
-    # to represent the active area
+    # NK to represent the active area
     boundsRect = pygame.Rect(boundsLeftEdge, boundsTopEdge, WINWIDTH * 3, WINHEIGHT * 3)
     # NK creates a rectangle using the position and dimensions of a given object
     objRect = pygame.Rect(obj['x'], obj['y'], obj['width'], obj['height'])
-    # checks if the rectangle encapsulating a given object is within the rectangle encapsulating the active area
-    # returns True if the object is not inside the active area
-    # returns False if it is inside the active area
+    # NK checks if the rectangle encapsulating a given object is within the rectangle encapsulating the active area
+    # NK returns True if the object is not inside the active area
+    # NK returns False if it is inside the active area
     return not boundsRect.colliderect(objRect) 
 
 if __name__ == '__main__':
