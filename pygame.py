@@ -414,15 +414,15 @@ def runGame():
         FPSCLOCK.tick(FPS)
 
 
-def drawHealthMeter(currentHealth):
+def drawHealthMeter(currentHealth): #AP: Define a function to draw health bar
     for i in range(currentHealth): # draw red health bars
-        pygame.draw.rect(DISPLAYSURF, RED,   (15, 5 + (10 * MAXHEALTH) - i * 10, 20, 10))
+        pygame.draw.rect(DISPLAYSURF, RED,   (15, 5 + (10 * MAXHEALTH) - i * 10, 20, 10)) #AP: display a rectangle to draw red bars as many times as the current health (since it runs as many times as the current health)
     for i in range(MAXHEALTH): # draw the white outlines
-        pygame.draw.rect(DISPLAYSURF, WHITE, (15, 5 + (10 * MAXHEALTH) - i * 10, 20, 10), 1)
-
+        pygame.draw.rect(DISPLAYSURF, WHITE, (15, 5 + (10 * MAXHEALTH) - i * 10, 20, 10), 1)#AP: display a rectangle to draw white bars as many times as the max health (since it runs as many times as the max health)
+    #AP: this can outline the total health out of the max health
 
 def terminate():
-    #ends the game and exits the terminal JC
+    #JC: ends the game and exits the terminal 
     pygame.quit()
     sys.exit()
 
@@ -461,24 +461,24 @@ def getRandomOffCameraPos(camerax, cameray, objWidth, objHeight):
 
 
 def makeNewSquirrel(camerax, cameray):
-    # these defined variables set the basis for the size of all squirrels JC
+    # JC: these defined variables set the basis for the size of all squirrels 
     sq = {}
     generalSize = random.randint(5, 25)
     multiplier = random.randint(1, 3)
-    # these defined variables give the squirrels a random size by multiplying their base size JC
-    # larger randint creates a larger image of the squirrel both vertically and horizontally JC
+    # JC: these defined variables give the squirrels a random size by multiplying their base size 
+    #JC:  larger randint creates a larger image of the squirrel both vertically and horizontally 
     sq['width']  = (generalSize + random.randint(0, 10)) * multiplier
     sq['height'] = (generalSize + random.randint(0, 10)) * multiplier
-    # randomly spawns the squirrels outside of the camera position JC
+    # JC: randomly spawns the squirrels outside of the camera position 
     sq['x'], sq['y'] = getRandomOffCameraPos(camerax, cameray, sq['width'], sq['height'])
-    # assigns random velocity to squirrels in terms of horizontal and vertical velocity JC
+    # JC: assigns random velocity to squirrels in terms of horizontal and vertical velocity 
     sq['movex'] = getRandomVelocity()
     sq['movey'] = getRandomVelocity()
     if sq['movex'] < 0: # squirrel is facing left
         sq['surface'] = pygame.transform.scale(L_SQUIR_IMG, (sq['width'], sq['height']))
     else: # squirrel is facing right
         sq['surface'] = pygame.transform.scale(R_SQUIR_IMG, (sq['width'], sq['height']))
-    # provides random bounce animation for squirrels JC
+    # JC: provides random bounce animation for squirrels 
     sq['bounce'] = 0
     sq['bouncerate'] = random.randint(10, 18)
     sq['bounceheight'] = random.randint(10, 50)
@@ -487,14 +487,14 @@ def makeNewSquirrel(camerax, cameray):
 
 def makeNewGrass(camerax, cameray):
     gr = {}
-    # creates random size for grass images JC
-    # chooses a random image of grass JC
+    # JC: creates random size for grass images 
+    # JC: chooses a random image of grass JC
     gr['grassImage'] = random.randint(0, len(GRASSIMAGES) - 1)
-    # larger get_width means the grass image is wider JC
-    # larger get_height means the grass image is taller JC
+    # JC: larger get_width means the grass image is wider 
+    # JC: larger get_height means the grass image is taller 
     gr['width']  = GRASSIMAGES[0].get_width()
     gr['height'] = GRASSIMAGES[0].get_height()
-    # spawns the grass off camera JC
+    # JC: spawns the grass off camera 
     gr['x'], gr['y'] = getRandomOffCameraPos(camerax, cameray, gr['width'], gr['height'])
     gr['rect'] = pygame.Rect( (gr['x'], gr['y'], gr['width'], gr['height']) )
     return gr
