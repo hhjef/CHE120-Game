@@ -1,3 +1,4 @@
+
 # Squirrel Eat Squirrel (a 2D Katamari Damacy clone)
 # By Al Sweigart al@inventwithpython.com
 # http://inventwithpython.com/pygame
@@ -35,6 +36,9 @@ NUMSQUIRRELS = 30    # number of squirrels in the active area
 SQUIRRELMINSPEED = 3 # slowest squirrel speed
 SQUIRRELMAXSPEED = 7 # fastest squirrel speed
 DIRCHANGEFREQ = 2    # % chance of direction change per frame
+
+NUMNUT = 6 #AP: number of nuts in the active area
+
 LEFT = 'left'
 RIGHT = 'right'
 
@@ -66,7 +70,7 @@ Grass data structure keys:
 
 def main():
     # NK Variables accessed outside the function
-    global FPSCLOCK, DISPLAYSURF, BASICFONT, L_SQUIR_IMG, R_SQUIR_IMG, GRASSIMAGES
+    global FPSCLOCK, DISPLAYSURF, BASICFONT, L_SQUIR_IMG, R_SQUIR_IMG, GRASSIMAGES, NUT_IMG
 
     # NK Initialize pygame modules
     pygame.init()
@@ -84,9 +88,13 @@ def main():
     L_SQUIR_IMG = pygame.image.load('squirrel.png')
     R_SQUIR_IMG = pygame.transform.flip(L_SQUIR_IMG, True, False)
     # NK Adds grass images together into a list
-    GRASSIMAGES = []
+    GRASSIMAGES = [] 
     for i in range(1, 5):
-        GRASSIMAGES.append(pygame.image.load('grass%s.png' % i))
+        GRASSIMAGES.append(pygame.image.load('grass%s.png' % i)) #AP: add grasses image to the game
+    
+   
+        
+    NUT_IMG = pygame.image.load('testnut.png') #AP: load nut image
 
     # NK Infinite loop that runs the game
     while True:
@@ -142,6 +150,7 @@ def runGame():
     #set up of backgrounds
     grassObjs = []    # AP: Variable that defined a list that stores all grass objects (Default: empty)
     squirrelObjs = [] # AP: Variable that defined a list that stores all the non-player squirrel objects (Default: empty)
+    nutObjs = []
     
     # stores the player object:
     playerObj = {'surface': pygame.transform.scale(L_SQUIR_IMG, (STARTSIZE, STARTSIZE)),
@@ -171,6 +180,12 @@ def runGame():
         grassObjs[i]['x'] = random.randint(0, WINWIDTH) #AP: get a random integer from 0 to WINWIDTH value and replace it in the 'x' in dictionary in index i 
         grassObjs[i]['y'] = random.randint(0, WINHEIGHT) #AP: get a random integer from 0 to WINHEIGHT value and replace it in the 'y' in dictionary in index i 
         #AP: this for loop can make new grass because the area of grass and its rectangle of the image of the grass is created. 
+        
+    for i in range(NUMNUT): #add nut images in the game
+        nutObjs.append(makeNewNuts(camerax, cameray)) #AP: get dictionary from makeNewNut function and add them to the list (the function creates nuts)
+        nutObjs[i]['x'] = random.randint(0,WINWIDTH) #AP: get a random integer from 0 to WINWIDTH value and replace it in the 'x' in dictionary in index i 
+        nutObjs[i]['y'] = random.randint(0,WINHEIGHT)#AP: get a random integer from 0 to WINHEIGHT value and replace it in the 'y' in dictionary in index i 
+        #AP: this for loop can make new nut because the area of nut and its rectangle of the image of the nut is created. 
         
     while True: #AP: main game loop (never exits until it breaks)
         #AP: check if the invulnerable mode should turn on
@@ -206,13 +221,19 @@ def runGame():
                 del grassObjs[i] #AP: if yes, delete the last item in the list (index i) (i.e. delete the furthest grass in game)
         for i in range(len(squirrelObjs) - 1, -1, -1): #AP: enter a for loop to let i start from the largest index number of list squirrelObjs until it reaches -1, jump -1 every time
             if isOutsideActiveArea(camerax, cameray, squirrelObjs[i]): #AP: if condition for calling and checking if function isOutsideActiveArea return True for squirrels objects
-                del squirrelObjs[i] #AP: if yes, delete the last item in the list (index i) (i.e. delete the furthest grass in game)
-
+                del squirrelObjs[i] #AP: if yes, delete the last item in the list (index i) (i.e. delete the furthest squirrel in game)
+        for i in range(len(nutObjs)-1,-1,-1):#AP: enter a for loop to let i start from the largest index number of list nutObjs until it reaches -1, jump -1 every time
+            if isOutsideActiveArea(camerax,cameray,nutObjs[i]): #AP: if condition for calling and checking if function isOutsideActiveArea return True for nut objects
+                del nutObjs[i] #AP: if yes, delete the last item in the list (index i) (i.e. delete the furthest nut in game)
         # add more grass & squirrels if we don't have enough.
         while len(grassObjs) < NUMGRASS: #AP: enter while loop if the length of grassObjs is less than the designated value of minimum number of grass (NUMGRASS variable) until it reaches the minimum
             grassObjs.append(makeNewGrass(camerax, cameray)) #AP: add grass objects at the end of the list
         while len(squirrelObjs) < NUMSQUIRRELS: #AP: enter while loop if the length of squirrelObjs is less than the designated value of minimum number of NPC squirrels (NUMSQUIRREL variable) until it reaches the minimum
-            squirrelObjs.append(makeNewSquirrel(camerax, cameray))#AP: add squirrel objects at the end of the list
+            squirrelObjs.append(makeNewSquirrel(camerax, cameray)) #AP: add squirrel objects at the end of the list
+        
+        # AP: add nuts
+        while len(nutObjs) < NUMNUT: #AP: enter while loop if the length of nutObjs is less than the designated value of minimum number of NPC squirrels (NUMNUT variable) until it reaches the minimum
+            nutObjs.append(makeNewNuts(camerax, cameray)) #AP: add nut objects at the end of the list
 
 
         #AP: adjust camera angle
@@ -247,7 +268,17 @@ def runGame():
                                                     #height is equal to the height of image (previously found in MakeNewGrass function)
             DISPLAYSURF.blit(GRASSIMAGES[gObj['grassImage']], gRect) #AP: use method .blit to build grass image taken from the list GRASSIMAGE with respect of the properties of gRect defined above. 
 
-
+        for nObj in nutObjs:
+            nObj['rect'] = pygame.Rect( (nObj['x'] - camerax,
+                                  nObj['y'] - cameray,
+                                  nObj['width'],
+                                  nObj['height']) ) #AP: define nObj['Rect'] to create rectangles with properties:
+                                                    #x position is random integer obtained previously in nutObjs[i]['x'] - camerax angle to draw outside of camerax range
+                                                    #y position is random integer obtained previously in nutObjs[i]['y'] - cameray angle to draw outside of cameray range
+                                                    #width is equal to the width of image (previously found in MakeNewNut function)
+                                                    #height is equal to the height of image (previously found in MakeNewNut function)
+           
+            DISPLAYSURF.blit(nObj['nutImage'], nObj['rect']) #AP: use method .blit to build nut image taken from the list NUTIMAGE with respect of the properties of gRect defined above. 
         # draw the other squirrels
         for sObj in squirrelObjs:
             sObj['rect'] = pygame.Rect( (sObj['x'] - camerax,
@@ -258,7 +289,7 @@ def runGame():
                                                            #y position is random integer obtained previously in squirrelObjs[i]['x'] - cameray angle to draw outside of cameray range - bounce rate obtained from getBounceAmount function
                                                            #width is equal to the width of image (previously found in MakeNewSquirrel function)
                                                            #height is equal to the height of image (previously found in MakeNewSquirrel function)
-            DISPLAYSURF.blit(sObj['surface'], sObj['rect']) #AP: use method .blit to build grass image taken from the list playerObj with respect of the properties of gRect defined above. 
+            DISPLAYSURF.blit(sObj['surface'], sObj['rect']) #AP: use method .blit to build squirrel image taken from the list playerObj with respect of the properties of gRect defined above. 
             
 
 #-- AP--
@@ -357,6 +388,20 @@ def runGame():
             if playerObj['bounce'] > BOUNCERATE:
                 playerObj['bounce'] = 0 # reset bounce amount
             # MS: if the player has reached the bounce limit, reset the bounce amount.
+            
+            
+            for i in range(len(nutObjs)-1, -1, -1): # AP: this for loop checks if the player collided with the nut
+            #AP: I started this for loop at the last index and subtract i by 1 every time the loop runs again
+                
+                if 'rect' in nutObjs[i] and playerObj['rect'].colliderect(nutObjs[i]['rect']): #AP: if the player's rectangle is on the nut's rectangle
+                    
+
+                    if playerObj['health'] < MAXHEALTH: #AP: and if player's health is lower than max health:
+                        
+                        playerObj['health'] +=1 #AP: add player's health
+                        
+                        del nutObjs[i] #AP: delete that nut object
+                    
 
             # check if the player has collided with any squirrels
             for i in range(len(squirrelObjs)-1, -1, -1):
@@ -484,6 +529,17 @@ def makeNewSquirrel(camerax, cameray):
     sq['bounceheight'] = random.randint(10, 50)
     return sq
 
+
+def makeNewNuts(camerax,cameray):
+    #AP: create fixed size of nuts
+    nu = {}
+    nu['nutImage'] = NUT_IMG
+    nu['width'] = 10
+    nu['height'] = 10
+    nu['x'],nu['y'] = getRandomOffCameraPos(camerax, cameray, nu['width'], nu['height'])
+    nu['rect'] = pygame.Rect( (nu['x'], nu['y'], nu['width'], nu['height']) )
+    return nu
+    
 
 def makeNewGrass(camerax, cameray):
     gr = {}
