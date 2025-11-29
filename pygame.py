@@ -17,7 +17,7 @@ WINHEIGHT = 480 # height in pixels
 HALF_WINWIDTH = int(WINWIDTH / 2) # NK half the width of the program's window, in pixels
 HALF_WINHEIGHT = int(WINHEIGHT / 2) # NK half the height of the program's window, in pixels
 
-GRASSCOLOR = (24, 255, 0) #NK Hue for grass
+GRASSCOLOR = (, 101, 108) #NK Hue for grass
 WHITE = (255, 255, 255) #NK Hue for white
 RED = (255, 0, 0) #NK Hue for red
 
@@ -81,16 +81,16 @@ def main():
     # NK Sets game window size
     DISPLAYSURF = pygame.display.set_mode((WINWIDTH, WINHEIGHT))
     # NK Sets game title at top of window
-    pygame.display.set_caption('Squirrel Eat Squirrel')
+    pygame.display.set_caption('fish food')
     BASICFONT = pygame.font.Font('freesansbold.ttf', 32)
 
     # load the image files
-    L_SQUIR_IMG = pygame.image.load('squirrel.png')
-    R_SQUIR_IMG = pygame.transform.flip(L_SQUIR_IMG, True, False)
-    # NK Adds grass images together into a list
-    GRASSIMAGES = [] 
-    for i in range(1, 5):
-        GRASSIMAGES.append(pygame.image.load('grass%s.png' % i)) #AP: add grasses image to the game
+    R_SQUIR_IMG = pygame.image.load('fish.png')
+    L_SQUIR_IMG = pygame.transform.flip(R_SQUIR_IMG, True, False)
+    # NK: Generate a list of seaweed items to randomly choose from
+    GRASSIMAGES = []
+    for i in range(1, 6):
+        GRASSIMAGES.append(pygame.image.load('anemone%s.png' % i))
     
    
         
@@ -108,6 +108,10 @@ def runGame():
     gameOverMode = False      # AP: default set up of the player where they aren't game over at start (Determine if the player has lost)
     gameOverStartTime = 0     # AP: The count time variable when the player is lost (default time = 0)
     winMode = False           # AP: The default set up where the player hasn't won (Determine if the player has win)
+    day_time = time.time()    # NK: the time at the start of the game
+    night = False             # NK: whether it is night
+    R_ENEMY_IMG = pygame.image.load('fish.png') # NK: Initialize enemy images left and right
+    L_ENEMY_IMG = pygame.transform.flip(R_SQUIR_IMG, True, False) 
 
     #AP: Set up for text when player loses
     gameOverSurf = BASICFONT.render('Game Over', True, WHITE) #AP:Defined Variable that creates a 'surface' for text (using methods '.render') where it adapts BASICFONT (for fonts) 
@@ -122,7 +126,7 @@ def runGame():
     
     
     #AP: Set up for text when player wins
-    winSurf = BASICFONT.render('You have achieved OMEGA SQUIRREL!', True, WHITE) #AP: Defined a variable that create a 'surface' for text (using methods '.render') where it adapts 
+    winSurf = BASICFONT.render('big fish in a small pond?', True, WHITE) #AP: Defined a variable that create a 'surface' for text (using methods '.render') where it adapts 
                                                                                   #BASICFONT (for fonts) to print 'You have achieved OMEGA SQUIRREL!' (It is a string.) with smooth edge since the 
                                                                                   #second argument (determine if the smooth edge is wanted with boolean variable) is 
                                                                                   #true with the text being white as it has the variable WHITE on 3rd argument (defines color)
@@ -196,7 +200,7 @@ def runGame():
         for sObj in squirrelObjs: 
             sObj['x'] += sObj['movex'] #AP: determine the x direction of squirrel. It does so because the value of the key 'x' is redefined to add the random number of x velocity of 'movex' key's value
             sObj['y'] += sObj['movey'] #AP: determine the y direction of squirrel. It does so because the value of the key 'y' is redefined to add the random number of y velocity of 'movey' key's value
-            sObj['bounce'] += 1 #AP: every time it moves the bounce key's value is added by 1
+            sObj['bounce'] += 0 #AP: every time it moves the bounce key's value is added by 1
             if sObj['bounce'] > sObj['bouncerate']: #AP: if condition for the bounce key value is too high (i.e. higher the value is higher than the maximum bounce value that is set)
                 sObj['bounce'] = 0 # AP: reset the bounce key's value to 0
 
@@ -205,11 +209,11 @@ def runGame():
                 sObj['movex'] = getRandomVelocity() #AP: determine the new x direction of squirrel. It does so because the value of the key 'x' is redefined to add the random number of x velocity of 'movex' key's value 
                 sObj['movey'] = getRandomVelocity() #AP: determine the new y direction of squirrel. It does so because the value of the key 'y' is redefined to add the random number of y velocity of 'movey' key's value
                 if sObj['movex'] > 0: # if condition for if x is larger than 0
-                    sObj['surface'] = pygame.transform.scale(R_SQUIR_IMG, (sObj['width'], sObj['height'])) #AP: makes it faces right since it transform the image of 
+                    sObj['surface'] = pygame.transform.scale(R_ENEMY_IMG, (sObj['width'], sObj['height'])) #AP: makes it faces right since it transform the image of 
                                                                                                             #the squirrel facing right to its squirrel width and height using method .transform (transform the image)
                                                                                                             #to transform to its designated width and height
                 else: #AP: else condition if not larger than 0
-                    sObj['surface'] = pygame.transform.scale(L_SQUIR_IMG, (sObj['width'], sObj['height']))
+                    sObj['surface'] = pygame.transform.scale(L_ENEMY_IMG, (sObj['width'], sObj['height']))
                     #AP: makes it faces right since it transform the image of 
                     #the squirrel facing left to its squirrel width and height using method .transform (transform the image)
                     #to transform to its designated width and height
@@ -441,6 +445,16 @@ def runGame():
                             gameOverMode = True # turn on "game over mode"
                             gameOverStartTime = time.time()
                         # MS: if the players health is equal to zero, the game is over.
+                        if night == False:
+                            playerObj['health'] -= 1
+                            if playerObj['health'] == 0:
+                                gameOverMode = True # turn on "game over mode"
+                                gameOverStartTime = time.time()
+                        if night == True:
+                            playerObj['health'] -= 2
+                            if playerObj['health'] <= 0:
+                                gameOverMode = True # turn on "game over mode"
+                                gameOverStartTime = time.time()
         else:
             # game is over, show "game over" text
             DISPLAYSURF.blit(gameOverSurf, gameOverRect)
@@ -453,6 +467,29 @@ def runGame():
             DISPLAYSURF.blit(winSurf, winRect)
         # MS: if the player has won, display the the win screen
             DISPLAYSURF.blit(winSurf2, winRect2)
+
+        # night mode function
+        # update the time constantly
+        current_time = time.time()
+        # check if it's been long enough since the last night mode
+        if night == False and current_time - day_time > 15:
+            night = True
+            night_start = current_time
+        # draw a transluscent rectangle over the screen for night mode
+        if night == True:
+            NIGHTSURFACE = pygame.Surface((WINWIDTH, WINHEIGHT))
+            pygame.draw.rect(NIGHTSURFACE, (0,0,139), (0, 0, WINWIDTH, WINHEIGHT))
+            NIGHTSURFACE.set_alpha(200)
+            DISPLAYSURF.blit(NIGHTSURFACE, (0, 0))
+            L_ENEMY_IMG = pygame.image.load('angler.png')
+            R_ENEMY_IMG = pygame.transform.flip(L_ENEMY_IMG, True, False)
+            
+            # check if the night has finished
+            if current_time - night_start > 10:
+                night = False
+                day_time = current_time
+                R_ENEMY_IMG = R_SQUIR_IMG
+                L_ENEMY_IMG = L_SQUIR_IMG
 
         pygame.display.update()
         # MS: updates the pygame window
