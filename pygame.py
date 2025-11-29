@@ -17,7 +17,7 @@ WINHEIGHT = 480 # height in pixels
 HALF_WINWIDTH = int(WINWIDTH / 2) # NK half the width of the program's window, in pixels
 HALF_WINHEIGHT = int(WINHEIGHT / 2) # NK half the height of the program's window, in pixels
 
-GRASSCOLOR = (0, 101, 108) #NK Hue for grass
+GRASSCOLOR = (0, 101, 108) #NK Hue for the ocean
 WHITE = (255, 255, 255) #NK Hue for white
 RED = (255, 0, 0) #NK Hue for red
 
@@ -450,6 +450,7 @@ def runGame():
                             if playerObj['health'] == 0:
                                 gameOverMode = True # turn on "game over mode"
                                 gameOverStartTime = time.time()
+                        # NK: change damage to 2 during night
                         if night == True:
                             playerObj['health'] -= 2
                             if playerObj['health'] <= 0:
@@ -468,14 +469,14 @@ def runGame():
         # MS: if the player has won, display the the win screen
             DISPLAYSURF.blit(winSurf2, winRect2)
 
-        # night mode function
-        # update the time constantly
+        # NK: night mode function
+        # NK: update the time constantly
         current_time = time.time()
-        # check if it's been long enough since the last night mode
+        # NK: check if it's been long enough since the last night mode
         if night == False and current_time - day_time > 15:
             night = True
             night_start = current_time
-        # draw a transluscent rectangle over the screen for night mode
+        # NK: draw a transluscent rectangle over the screen for night mode
         if night == True:
             NIGHTSURFACE = pygame.Surface((WINWIDTH, WINHEIGHT))
             pygame.draw.rect(NIGHTSURFACE, (0,0,139), (0, 0, WINWIDTH, WINHEIGHT))
@@ -484,7 +485,7 @@ def runGame():
             L_ENEMY_IMG = pygame.image.load('angler.png')
             R_ENEMY_IMG = pygame.transform.flip(L_ENEMY_IMG, True, False)
             
-            # check if the night has finished
+            # NK: check if the night has finished
             if current_time - night_start > 10:
                 night = False
                 day_time = current_time
