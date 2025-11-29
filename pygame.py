@@ -1,4 +1,3 @@
-
 # Squirrel Eat Squirrel (a 2D Katamari Damacy clone)
 # By Al Sweigart al@inventwithpython.com
 # http://inventwithpython.com/pygame
@@ -153,7 +152,7 @@ def runGame():
     
     #set up of backgrounds
     grassObjs = []    # AP: Variable that defined a list that stores all grass objects (Default: empty)
-    squirrelObjs = [] # AP: Variable that defined a list that stores all the non-player squirrel objects (Default: empty)
+    squirrelObjs = [] # AP: Variable that defined a list that stores all the non-player fish objects (Default: empty)
     nutObjs = []
     
     # stores the player object:
@@ -163,33 +162,33 @@ def runGame():
                  'x': HALF_WINWIDTH,
                  'y': HALF_WINHEIGHT,
                  'bounce':0,
-                 'health': MAXHEALTH} #AP:It is a variable that is a python dictionary that describes the appearance and behavior of the squirrel. 
-                                        #surface is the size and face of squirrel. Using method '.transform.scale', it transforms the squirrel to
-                                        #the L_SQUIR_IMG (image of squirrel stored) with size (25,25) -> (width of image, height of image)
+                 'health': MAXHEALTH} #AP:It is a variable that is a python dictionary that describes the appearance and behavior of the fish. 
+                                        #surface is the size and face of fish. Using method '.transform.scale', it transforms the fish to
+                                        #the L_SQUIR_IMG (image of fish stored) with size (25,25) -> (width of image, height of image)
                                         
-                                        #AP: facing is the default direction of the squirrel facing. It is looking to left
+                                        #AP: facing is the default direction of the fish facing. It is looking to left
                                         #size is the size in default (its size is 25)
-                                        #x and y describe the horizontal and veritcal position of squirrel respectively (its position is 320 and 240 respectively)
-                                        #squirrel doesn't bounce in default as bounce is 0
-                                        #health determines how many health the squirrel has. Default is 3
+                                        #x and y describe the horizontal and veritcal position of fish respectively (its position is 320 and 240 respectively)
+                                        #fish doesn't bounce in default as bounce is 0
+                                        #health determines how many health the fish has. Default is 3
                                         
-    #AP: Here defines the default movement of squirrel (all are False in default to ensure the squrriel in rest unless users input movement)
-    moveLeft  = False  #AP: boolean variable defined when the squirrel moves towards left (default is False)
-    moveRight = False  #AP: boolean variable defined when the squirrel moves towards right (default is False)
-    moveUp    = False  #AP: boolean variable defined when the squirrel moves towards up (default is False)
-    moveDown  = False  #AP: boolean variable defined when the squirrel moves towards down (default is False)
+    #AP: Here defines the default movement of fish (all are False in default to ensure the squrriel in rest unless users input movement)
+    moveLeft  = False  #AP: boolean variable defined when the fish moves towards left (default is False)
+    moveRight = False  #AP: boolean variable defined when the fish moves towards right (default is False)
+    moveUp    = False  #AP: boolean variable defined when the fish moves towards up (default is False)
+    moveDown  = False  #AP: boolean variable defined when the fish moves towards down (default is False)
 
     for i in range(10): #AP: for loop that run 10 times
         grassObjs.append(makeNewGrass(camerax, cameray)) #AP: get dictionary from makeNewGrass function and add them to the list (the function creates grass)
         grassObjs[i]['x'] = random.randint(0, WINWIDTH) #AP: get a random integer from 0 to WINWIDTH value and replace it in the 'x' in dictionary in index i 
         grassObjs[i]['y'] = random.randint(0, WINHEIGHT) #AP: get a random integer from 0 to WINHEIGHT value and replace it in the 'y' in dictionary in index i 
-        #AP: this for loop can make new grass because the area of grass and its rectangle of the image of the grass is created. 
+        #AP: this for loop can make new coral because the area of coral and its rectangle of the image of the coral is created. 
         
-    for i in range(NUMNUT): #add nut images in the game
+    for i in range(NUMNUT): #add shrimp images in the game
         nutObjs.append(makeNewNuts(camerax, cameray)) #AP: get dictionary from makeNewNut function and add them to the list (the function creates nuts)
         nutObjs[i]['x'] = random.randint(0,WINWIDTH) #AP: get a random integer from 0 to WINWIDTH value and replace it in the 'x' in dictionary in index i 
         nutObjs[i]['y'] = random.randint(0,WINHEIGHT)#AP: get a random integer from 0 to WINHEIGHT value and replace it in the 'y' in dictionary in index i 
-        #AP: this for loop can make new nut because the area of nut and its rectangle of the image of the nut is created. 
+        #AP: this for loop can make new shrimp because the area of nut and its rectangle of the image of the nut is created. 
         
     while True: #AP: main game loop (never exits until it breaks)
         #AP: check if the invulnerable mode should turn on
@@ -198,70 +197,70 @@ def runGame():
 
         #AP: for loop to move NPC squirrels
         for sObj in squirrelObjs: 
-            sObj['x'] += sObj['movex'] #AP: determine the x direction of squirrel. It does so because the value of the key 'x' is redefined to add the random number of x velocity of 'movex' key's value
-            sObj['y'] += sObj['movey'] #AP: determine the y direction of squirrel. It does so because the value of the key 'y' is redefined to add the random number of y velocity of 'movey' key's value
+            sObj['x'] += sObj['movex'] #AP: determine the x direction of fish. It does so because the value of the key 'x' is redefined to add the random number of x velocity of 'movex' key's value
+            sObj['y'] += sObj['movey'] #AP: determine the y direction of fish. It does so because the value of the key 'y' is redefined to add the random number of y velocity of 'movey' key's value
             sObj['bounce'] += 0 #AP: every time it moves the bounce key's value is added by 1
             if sObj['bounce'] > sObj['bouncerate']: #AP: if condition for the bounce key value is too high (i.e. higher the value is higher than the maximum bounce value that is set)
                 sObj['bounce'] = 0 # AP: reset the bounce key's value to 0
 
             #Randomly change squirrel's direction
             if random.randint(0, 99) < DIRCHANGEFREQ: #AP: get a random integer and if it is 0 or 1 (i.e. less than the numeric variable DIRCHANGEFREQ, 2), enter if condition
-                sObj['movex'] = getRandomVelocity() #AP: determine the new x direction of squirrel. It does so because the value of the key 'x' is redefined to add the random number of x velocity of 'movex' key's value 
-                sObj['movey'] = getRandomVelocity() #AP: determine the new y direction of squirrel. It does so because the value of the key 'y' is redefined to add the random number of y velocity of 'movey' key's value
+                sObj['movex'] = getRandomVelocity() #AP: determine the new x direction of fish. It does so because the value of the key 'x' is redefined to add the random number of x velocity of 'movex' key's value 
+                sObj['movey'] = getRandomVelocity() #AP: determine the new y direction of fish. It does so because the value of the key 'y' is redefined to add the random number of y velocity of 'movey' key's value
                 if sObj['movex'] > 0: # if condition for if x is larger than 0
                     sObj['surface'] = pygame.transform.scale(R_ENEMY_IMG, (sObj['width'], sObj['height'])) #AP: makes it faces right since it transform the image of 
-                                                                                                            #the squirrel facing right to its squirrel width and height using method .transform (transform the image)
+                                                                                                            #the fish facing right to its fish width and height using method .transform (transform the image)
                                                                                                             #to transform to its designated width and height
                 else: #AP: else condition if not larger than 0
                     sObj['surface'] = pygame.transform.scale(L_ENEMY_IMG, (sObj['width'], sObj['height']))
                     #AP: makes it faces right since it transform the image of 
-                    #the squirrel facing left to its squirrel width and height using method .transform (transform the image)
+                    #the fish facing left to its squirrel width and height using method .transform (transform the image)
                     #to transform to its designated width and height
 
 
         # go through all the objects and see if any need to be deleted.
         for i in range(len(grassObjs) - 1, -1, -1): #AP: enter a for loop to let i start from the largest index number of list grassObjs until it reaches -1, jump -1 every time
-            if isOutsideActiveArea(camerax, cameray, grassObjs[i]): #AP: if condition for checking if when calling function isOutsideActiveArea return True for grass objects
-                del grassObjs[i] #AP: if yes, delete the last item in the list (index i) (i.e. delete the furthest grass in game)
+            if isOutsideActiveArea(camerax, cameray, grassObjs[i]): #AP: if condition for checking if when calling function isOutsideActiveArea return True for coral objects
+                del grassObjs[i] #AP: if yes, delete the last item in the list (index i) (i.e. delete the furthest coral in game)
         for i in range(len(squirrelObjs) - 1, -1, -1): #AP: enter a for loop to let i start from the largest index number of list squirrelObjs until it reaches -1, jump -1 every time
-            if isOutsideActiveArea(camerax, cameray, squirrelObjs[i]): #AP: if condition for calling and checking if function isOutsideActiveArea return True for squirrels objects
-                del squirrelObjs[i] #AP: if yes, delete the last item in the list (index i) (i.e. delete the furthest squirrel in game)
+            if isOutsideActiveArea(camerax, cameray, squirrelObjs[i]): #AP: if condition for calling and checking if function isOutsideActiveArea return True for fish objects
+                del squirrelObjs[i] #AP: if yes, delete the last item in the list (index i) (i.e. delete the furthest fish in game)
         for i in range(len(nutObjs)-1,-1,-1):#AP: enter a for loop to let i start from the largest index number of list nutObjs until it reaches -1, jump -1 every time
-            if isOutsideActiveArea(camerax,cameray,nutObjs[i]): #AP: if condition for calling and checking if function isOutsideActiveArea return True for nut objects
-                del nutObjs[i] #AP: if yes, delete the last item in the list (index i) (i.e. delete the furthest nut in game)
-        # add more grass & squirrels if we don't have enough.
-        while len(grassObjs) < NUMGRASS: #AP: enter while loop if the length of grassObjs is less than the designated value of minimum number of grass (NUMGRASS variable) until it reaches the minimum
-            grassObjs.append(makeNewGrass(camerax, cameray)) #AP: add grass objects at the end of the list
+            if isOutsideActiveArea(camerax,cameray,nutObjs[i]): #AP: if condition for calling and checking if function isOutsideActiveArea return True for shrimp objects
+                del nutObjs[i] #AP: if yes, delete the last item in the list (index i) (i.e. delete the furthest shrimp in game)
+        # add more coral & fish if we don't have enough.
+        while len(grassObjs) < NUMGRASS: #AP: enter while loop if the length of grassObjs is less than the designated value of minimum number of coral (NUMGRASS variable) until it reaches the minimum
+            grassObjs.append(makeNewGrass(camerax, cameray)) #AP: add coral objects at the end of the list
         while len(squirrelObjs) < NUMSQUIRRELS: #AP: enter while loop if the length of squirrelObjs is less than the designated value of minimum number of NPC squirrels (NUMSQUIRREL variable) until it reaches the minimum
-            squirrelObjs.append(makeNewSquirrel(camerax, cameray)) #AP: add squirrel objects at the end of the list
+            squirrelObjs.append(makeNewSquirrel(camerax, cameray)) #AP: add fish objects at the end of the list
         
-        # AP: add nuts
-        while len(nutObjs) < NUMNUT: #AP: enter while loop if the length of nutObjs is less than the designated value of minimum number of NPC squirrels (NUMNUT variable) until it reaches the minimum
-            nutObjs.append(makeNewNuts(camerax, cameray)) #AP: add nut objects at the end of the list
+        # AP: add shrimp
+        while len(nutObjs) < NUMNUT: #AP: enter while loop if the length of nutObjs is less than the designated value of minimum number of NPC fish (NUMNUT variable) until it reaches the minimum
+            nutObjs.append(makeNewNuts(camerax, cameray)) #AP: add shrimp objects at the end of the list
 
 
         #AP: adjust camera angle
         playerCenterx = playerObj['x'] + int(playerObj['size'] / 2) #AP: define the center of player in x position as the x position of player plus half of the player's size (from dictionary of player; get 'x' and 'size' key)
         playerCentery = playerObj['y'] + int(playerObj['size'] / 2) #AP: define the center of player in y position as the y position of player plus half of the player's size (from dictionary of player; get 'x' and 'size' key)
         #AP: if camera position x is too right
-        if (camerax + HALF_WINWIDTH) - playerCenterx > CAMERASLACK: #AP: if condition to compare the sum of camerax position plus half window width minus player centre x to CAMERASLACK (how far squirrel moves from centre before camera moves)
+        if (camerax + HALF_WINWIDTH) - playerCenterx > CAMERASLACK: #AP: if condition to compare the sum of camerax position plus half window width minus player centre x to CAMERASLACK (how far fish moves from centre before camera moves)
             camerax = playerCenterx + CAMERASLACK - HALF_WINWIDTH #AP: if the camerax+halfWINWIDTH-playerCenterx is larger than CAMERASLACK, reset the camerax position to 
-                                                                    #player center x plus how far squirrel moves from centre before camera moves minus half window width to move right to ensure it is tracking the squirrel
+                                                                    #player center x plus how far squirrel moves from centre before camera moves minus half window width to move right to ensure it is tracking the fish
         #AP: else if camera position x is too left
         elif playerCenterx - (camerax + HALF_WINWIDTH) > CAMERASLACK: #AP: take the expression above and times negative in else if since they represent when the camera position is too left. 
-            camerax = playerCenterx - CAMERASLACK - HALF_WINWIDTH #AP: did the same equation above but since player is moving left, the cameraslack is negative to make the camera move left to ensure it is tracking the squirrel
+            camerax = playerCenterx - CAMERASLACK - HALF_WINWIDTH #AP: did the same equation above but since player is moving left, the cameraslack is negative to make the camera move left to ensure it is tracking the fish
         
         #AP: if camera position y is too high
 
-        if (cameray + HALF_WINHEIGHT) - playerCentery > CAMERASLACK: #AP: if condition to compare the sum of cameray position plus half window width minus player centre y to CAMERASLACK (how far squirrel moves from centre before camera moves)
+        if (cameray + HALF_WINHEIGHT) - playerCentery > CAMERASLACK: #AP: if condition to compare the sum of cameray position plus half window width minus player centre y to CAMERASLACK (how far fish moves from centre before camera moves)
             cameray = playerCentery + CAMERASLACK - HALF_WINHEIGHT #AP: if the cameray+halfWINWIDTH-playerCentery is larger than CAMERASLACK, reset the cameray position to 
-                                                                    #player center y plus how far squirrel moves from centre before camera moves minus half window width to move up to ensure it is tracking the squirrel
+                                                                    #player center y plus how far fish moves from centre before camera moves minus half window width to move up to ensure it is tracking the fish
         elif playerCentery - (cameray + HALF_WINHEIGHT) > CAMERASLACK: #AP: take the expression above and times negative in else if since they represent when the camera position is too low. 
             cameray = playerCentery - CAMERASLACK - HALF_WINHEIGHT #AP: did the same equation above but since player is moving down, the cameraslack is negative to make the camera move down to ensure it is tracking the squirrel
 
-        DISPLAYSURF.fill(GRASSCOLOR) #use builtin variable and method DISPLAYSURF.fill to fill the grass color (just the color, not grass) 
+        DISPLAYSURF.fill(GRASSCOLOR) #use builtin variable and method DISPLAYSURF.fill to fill the ocean color (just the color, not grass) 
 
-        for gObj in grassObjs: #AP: call for loop to draw grass, range is the length of the list grassObjs
+        for gObj in grassObjs: #AP: call for loop to draw coral, range is the length of the list grassObjs
             gRect = pygame.Rect( (gObj['x'] - camerax,
                                   gObj['y'] - cameray,
                                   gObj['width'],
@@ -283,7 +282,7 @@ def runGame():
                                                     #height is equal to the height of image (previously found in MakeNewNut function)
            
             DISPLAYSURF.blit(nObj['nutImage'], nObj['rect']) #AP: use method .blit to build nut image taken from the list NUTIMAGE with respect of the properties of gRect defined above. 
-        # draw the other squirrels
+        # draw the other fish
         for sObj in squirrelObjs:
             sObj['rect'] = pygame.Rect( (sObj['x'] - camerax,
                                          sObj['y'] - cameray - getBounceAmount(sObj['bounce'], sObj['bouncerate'], sObj['bounceheight']),
@@ -296,8 +295,8 @@ def runGame():
             DISPLAYSURF.blit(sObj['surface'], sObj['rect']) #AP: use method .blit to build squirrel image taken from the list playerObj with respect of the properties of gRect defined above. 
             
 
-#-- AP--
-        # draw the player squirrel
+
+        # draw the player fish
         flashIsOn = round(time.time(), 1) * 10 % 2 == 1
         # MS: this variable rounds the value for flashison to a single decimal place, and then every 0.1s the expression alternates between True and False      
         if not gameOverMode and not (invulnerableMode and flashIsOn):
@@ -439,11 +438,6 @@ def runGame():
                         invulnerableMode = True
                         invulnerableStartTime = time.time()
                         # MS: prevents the player from taking too much damage in one collision.
-                        playerObj['health'] -= 1
-                        # MS: the players health is reduced.
-                        if playerObj['health'] == 0:
-                            gameOverMode = True # turn on "game over mode"
-                            gameOverStartTime = time.time()
                         # MS: if the players health is equal to zero, the game is over.
                         if night == False:
                             playerObj['health'] -= 1
