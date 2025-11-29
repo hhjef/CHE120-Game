@@ -17,7 +17,7 @@ WINHEIGHT = 480 # height in pixels
 HALF_WINWIDTH = int(WINWIDTH / 2) # NK half the width of the program's window, in pixels
 HALF_WINHEIGHT = int(WINHEIGHT / 2) # NK half the height of the program's window, in pixels
 
-GRASSCOLOR = (, 101, 108) #NK Hue for grass
+GRASSCOLOR = (0, 101, 108) #NK Hue for grass
 WHITE = (255, 255, 255) #NK Hue for white
 RED = (255, 0, 0) #NK Hue for red
 
@@ -94,7 +94,7 @@ def main():
     
    
         
-    NUT_IMG = pygame.image.load('testnut.png') #AP: load nut image
+    NUT_IMG = pygame.image.load('shrimp.png') #AP: load nut image
 
     # NK Infinite loop that runs the game
     while True:
