@@ -37,7 +37,7 @@ SQUIRRELMINSPEED = 3 # slowest squirrel speed
 SQUIRRELMAXSPEED = 7 # fastest squirrel speed
 DIRCHANGEFREQ = 2    # % chance of direction change per frame
 
-NUMNUT = 6 #AP: number of nuts in the active area
+NUMNUT = 3 #AP: number of nuts in the active area
 
 LEFT = 'left'
 RIGHT = 'right'
