@@ -386,7 +386,7 @@ def runGame():
             # MS: if the player moves down, add that amount of moves from the players current location in terms of the y-value of the players coordinate. 
 
             if (moveLeft or moveRight or moveUp or moveDown) or playerObj['bounce'] != 0:
-                playerObj['bounce'] += 1
+                playerObj['bounce'] += 0
             # MS: if the player moves at all or if the bounce animation is already in action, then have the squirrel start to bounce or continue to bounce. 
 
             if playerObj['bounce'] > BOUNCERATE:
