@@ -300,7 +300,7 @@ def runGame():
         flashIsOn = round(time.time(), 1) * 10 % 2 == 1
         # MS: this variable rounds the value for flashison to a single decimal place, and then every 0.1s the expression alternates between True and False      
         if not gameOverMode and not (invulnerableMode and flashIsOn):
-        # MS: if the player has won and not invulnerable and also 
+        # MS: if the player has won and not invulnerable with flashison==False
             playerObj['rect'] = pygame.Rect( (playerObj['x'] - camerax,
                                               playerObj['y'] - cameray - getBounceAmount(playerObj['bounce'], BOUNCERATE, BOUNCEHEIGHT),
                                               playerObj['size'],
@@ -314,7 +314,7 @@ def runGame():
         for event in pygame.event.get(): # event handling loop
             if event.type == QUIT:
                 terminate()
-        # MS: the event.type is the last action that took plae on the screen. if the user clicks the X out button, as in QUIT, then it exits the game.
+        # MS: the event.type is the last action that took place on the screen. if the user clicks the X out button, as in QUIT, then it exits the game.
 
             elif event.type == KEYDOWN:
                 if event.key in (K_UP, K_w):
@@ -332,7 +332,7 @@ def runGame():
                     if playerObj['facing'] != LEFT: # change player image
             # MS: if the squirrels face is not facing left, continue with the rest of the code.
                         playerObj['surface'] = pygame.transform.scale(L_SQUIR_IMG, (playerObj['size'], playerObj['size']))
-            # MS: if the squirrels face is not facing left, it sets the image displayed on the screen to the preloaded left-facing picture.
+            # MS: if the squirrels face is not facing left, it sets the image displayed on the screen to the left-facing image.
                     playerObj['facing'] = LEFT
             # MS: update the squirrels direction
                 elif event.key in (K_RIGHT, K_d):
@@ -341,7 +341,7 @@ def runGame():
             # MS: if the player clicks the RIGHT arrow key or the d key on the keyboard, make "moveRight" equal to True so that the squirrel moves right.
                     if playerObj['facing'] != RIGHT: # change player image
                         playerObj['surface'] = pygame.transform.scale(R_SQUIR_IMG, (playerObj['size'], playerObj['size']))
-            # MS: if the squirrels image is not facing right, set the surface image displayed to show the preloaded right-facing picture.
+            # MS: if the squirrels image is not facing right, set the surface image displayed to show the right-facing picture.
                     playerObj['facing'] = RIGHT
             # MS: update the squirrels direction        
                 elif winMode and event.key == K_r:
@@ -350,7 +350,7 @@ def runGame():
 
             elif event.type == KEYUP:
                 # stop moving the player's squirrel
-            # MS: if the pressed uo goes from being pressed down to up, then...
+            # MS: if the key goes from being pressed down to up, then...
                 if event.key in (K_LEFT, K_a):
                     moveLeft = False
             # MS: the player stops moving left
@@ -382,7 +382,7 @@ def runGame():
             # MS: if the player moves up, subtract that amount of moves from the players current location in terms of the y axis. 
             if moveDown:
                 playerObj['y'] += MOVERATE
-            # MS: if the player moves down, add that amount of moves from the players current location in terms of the y-value of the players coordinate. 
+            # MS: if the player moves down, add that amount of moves from the players current location in terms of the y-axis. 
 
             if (moveLeft or moveRight or moveUp or moveDown) or playerObj['bounce'] != 0:
                 playerObj['bounce'] += 0
@@ -408,7 +408,7 @@ def runGame():
 
             # check if the player has collided with any squirrels
             for i in range(len(squirrelObjs)-1, -1, -1):
-            # MS: start the loop at the last index, stop at index -1. bascially moving backwards by -1 through each index.
+            # MS: start the loop at the last index, stop at -1. Bascially moving backwards by -1 through each index.
             # MS: a backwards loop is used so that when items are removed or replaced, it does not shift the indices and possibly break the loop.
                 sqObj = squirrelObjs[i]
             # MS: goes into the squirrel dictionary
