@@ -393,7 +393,7 @@ def runGame():
             # MS: if the player has reached the bounce limit, reset the bounce amount.
             
             
-            for i in range(len(nutObjs)-1, -1, -1): # AP: this for loop checks if the player collided with the nut
+            for i in range(len(nutObjs)-1, -1, -1): # AP: this for loop checks if the player collided with the shrimp
             #AP: I started this for loop at the last index and subtract i by 1 every time the loop runs again
                 
                 if 'rect' in nutObjs[i] and playerObj['rect'].colliderect(nutObjs[i]['rect']): #AP: if the player's rectangle is on the nut's rectangle
@@ -403,7 +403,7 @@ def runGame():
                         
                         playerObj['health'] +=1 #AP: add player's health
                         
-                        del nutObjs[i] #AP: delete that nut object
+                        del nutObjs[i] #AP: delete that shrimp object
                     
 
             # check if the player has collided with any squirrels
